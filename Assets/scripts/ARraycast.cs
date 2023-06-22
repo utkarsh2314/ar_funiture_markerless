@@ -8,6 +8,7 @@ public class ARraycast : MonoBehaviour
 {
     public ARRaycastManager raycastManager;
     public GameObject objectToPlace;
+    private GameObject placedObject;
 
     public Camera arCamera;
 
@@ -30,8 +31,16 @@ public class ARraycast : MonoBehaviour
             if(raycastManager.Raycast(ray,hits,TrackableType.Planes))
             {
                 Pose hitPose = hits[0].pose;
-                Instantiate(objectToPlace, hitPose.position, hitPose.rotation);
+                if (placedObject == null)
+                {
+                    placedObject=Instantiate(objectToPlace, hitPose.position, hitPose.rotation);
+                }
+                else
+                {
+                    placedObject.transform.position = hitPose.position;
+                    placedObject.transform.rotation = hitPose.rotation;
 
+                }
             }
         }
     }
