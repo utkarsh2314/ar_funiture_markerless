@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
-public class PlaceManager : MonoBehaviour
+public class PlaceMultipleManager : MonoBehaviour
 {
 
     private PlaceIndicator laceIndicator;
@@ -14,6 +14,8 @@ public class PlaceManager : MonoBehaviour
     public GameObject objectThird;
 
     private GameObject objectToPlaces;
+    private GameObject checkBeforePlace;
+    private GameObject newPlacedObject;
 
 
     // Start is called before the first frame update
@@ -24,29 +26,66 @@ public class PlaceManager : MonoBehaviour
 
     }
 
-    public void InstantiateObject()
-    {
-        Instantiate(objectToPlaces, laceIndicator.transform.position, laceIndicator.transform.rotation);
+   // public void InstantiateObject()
+   // {
+   //     Instantiate(objectToPlaces, laceIndicator.transform.position, laceIndicator.transform.rotation);
 
+   // }
+
+    public void SetObjectToPlace(GameObject  objPrefab)
+    {
+        objectToPlaces=(objPrefab);
     }
 
 
     public void ClickToPlaceFirst()
     {
-        objectToPlaces = objectFirst;
-        InstantiateObject();
+        SetObjectToPlace(objectFirst);
     }
     public void ClickToPlaceSecond()
     {
-        objectToPlaces = objectSecond;
-        InstantiateObject();
+        SetObjectToPlace(objectSecond);
     }
     public void ClickToPlaceThird()
     {
-        objectToPlaces = objectThird;
-        InstantiateObject();
+        SetObjectToPlace(objectThird);
+    }
+
+    public void ClickToCheck()
+    {
+        if(objectToPlaces==null)
+        {
+            return;
+        }
+        if(checkBeforePlace != null)
+        {
+            Destroy(checkBeforePlace);
+        }
+
+        checkBeforePlace = Instantiate(objectToPlaces, laceIndicator.transform.position, laceIndicator.transform.rotation);
+    
     }
     // Update is called once per frame
-    
+     public void ClickToPlace()
+    {
+        if(objectToPlaces == null)
+        {
+            return;
+        }
+        if(checkBeforePlace !=null)
+        {
+            newPlacedObject = checkBeforePlace;
+            Instantiate(objectToPlaces, laceIndicator.transform.position, laceIndicator.transform.rotation);
+
+            Destroy(checkBeforePlace);
+
+        }
+        else
+        {
+            Instantiate(objectToPlaces, laceIndicator.transform.position, laceIndicator.transform.rotation);
+        }
+    }
+
+
     }
 
