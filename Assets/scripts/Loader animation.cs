@@ -1,0 +1,46 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class Loaderanimation : MonoBehaviour
+{
+    public Animator transition;
+    public float transitionTime = 1f;
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            StartCoroutine(LoadLevel(0));
+        }
+    }
+        public void MainScene()
+        {
+            StartCoroutine(LoadLevel(0));
+            Debug.Log("LevelIndex");
+        }
+        public void GameScene()
+        {
+            StartCoroutine(LoadLevel(1));
+        }
+        public void about_page()
+        {
+            StartCoroutine(LoadLevel(2));
+        }
+        public void quit_page()
+        {
+            Application.Quit();
+        }
+        //Input.GetKeyDown(KeyCode.Escape)
+        IEnumerator LoadLevel(int LevelIndex)
+        {
+            transition.SetTrigger("Start");
+
+            yield return new WaitForSeconds(transitionTime);
+
+            SceneManager.LoadScene(LevelIndex);
+
+        }
+    
+}
